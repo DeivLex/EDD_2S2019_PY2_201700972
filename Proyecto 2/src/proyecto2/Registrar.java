@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyecto.pkg2;
+package proyecto2;
 
-import static proyecto.pkg2.Proyecto2.Tabla_hash;
-import static proyecto.pkg2.Proyecto2.tamanio_hash;
+import javax.swing.JOptionPane;
+import static proyecto2.Proyecto2.Tabla_francisco;
+import static proyecto2.Proyecto2.Tabla_hash;
+import static proyecto2.Proyecto2.tamanio_hash;
 
 /**
  *
@@ -118,11 +120,17 @@ public class Registrar extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        insertar(jTextField1.getText());
+        String contra = jTextField2.getText();
+        String separado[];
+        separado = contra.split("");
+        if(separado.length>7){    
+        insertar(jTextField1.getText(),jTextField2.getText());
         jTextField1.setText("");
         jTextField2.setText("");
         System.out.println(imprimir());
-        // TODO add your handling code here:
+        }else{
+        JOptionPane.showMessageDialog(null, "Contraseña con al menos 8 caracteres");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -170,6 +178,7 @@ public class Registrar extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
     int cambiar=0;
+    int tam=0;
     private static int Hash(String Clave) {            
      int valor = Clave.charAt(0);
      int tam = Clave.length();
@@ -179,36 +188,38 @@ public class Registrar extends javax.swing.JFrame {
      return (valor % tamanio_hash);
      }
 
-     public void insertar (String p) {
-     cambiar++;
+     public void insertar (String p,String p2) {
      int pos = this.Hash(p);
-     if(Tabla_hash[pos]==null){
-     Tabla_hash[pos] = p;
+     if(Tabla_hash.get(pos)==null){
+     Tabla_hash.set(pos, new Usuario(p,p2,pos,"time"));
+     cambiar++;
     }else{
      System.out.println("Colision "+pos);
      if(pos==1 || pos==0){
      pos=pos+2;
      }
-     while(Tabla_hash[pos]!=null){
+     while(Tabla_hash.get(pos)!=null){
      pos=(pos*pos);
-     System.out.println("Cuadrado "+pos);
      while(pos>tamanio_hash){
      pos=pos-(tamanio_hash);
-     System.out.println("restado "+pos);
      }
      }
-     Tabla_hash[pos] = p;
-     System.out.println("Resuelta");
+     Tabla_hash.set(pos,new Usuario(p,p2,pos,"time"));
+     cambiar++;
      }
      if(cambiar>(tamanio_hash*0.5)){
      System.out.println("Ya cambio");
-     
+     tamanio_hash+=Tabla_francisco.get(tam);
+     for(int i=0;i<Tabla_francisco.get(tam);i++){
+     Tabla_hash.add(null);
+     }
+     tam++;
      }
      }
     public String imprimir(){
    String Lista="";
-   for (int i=0; i<Tabla_hash.length;i++){
-   Lista= Lista +(i)+" "+Tabla_hash[i];
+   for (int i=0; i<Tabla_hash.size();i++){
+   Lista= Lista +(i+1)+" "+Tabla_hash.get(i);
    Lista = Lista + " \n ";
    }
    Lista = Lista + "";
