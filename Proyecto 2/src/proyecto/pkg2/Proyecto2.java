@@ -15,6 +15,8 @@ public class Proyecto2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Inicio v = new Inicio();
+        v.show();
         // TODO code application logic here
     }
     
