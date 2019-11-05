@@ -5,6 +5,9 @@
  */
 package proyecto.pkg2;
 
+import static proyecto.pkg2.Proyecto2.Tabla_hash;
+import static proyecto.pkg2.Proyecto2.tamanio_hash;
+
 /**
  *
  * @author Davis
@@ -42,6 +45,11 @@ public class Registrar extends javax.swing.JFrame {
         jLabel1.setText("Registrar");
 
         jButton1.setText("Registrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Usuario");
 
@@ -109,6 +117,14 @@ public class Registrar extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        insertar(jTextField1.getText());
+        jTextField1.setText("");
+        jTextField2.setText("");
+        System.out.println(imprimir());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -153,4 +169,49 @@ public class Registrar extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+    int cambiar=0;
+    private static int Hash(String Clave) {            
+     int valor = Clave.charAt(0);
+     int tam = Clave.length();
+     for (int i = 1; i < tam ;i++) {
+     valor += Character.getNumericValue( Clave.charAt(i));
+     }
+     return (valor % tamanio_hash);
+     }
+
+     public void insertar (String p) {
+     cambiar++;
+     int pos = this.Hash(p);
+     if(Tabla_hash[pos]==null){
+     Tabla_hash[pos] = p;
+    }else{
+     System.out.println("Colision "+pos);
+     if(pos==1 || pos==0){
+     pos=pos+2;
+     }
+     while(Tabla_hash[pos]!=null){
+     pos=(pos*pos);
+     System.out.println("Cuadrado "+pos);
+     while(pos>tamanio_hash){
+     pos=pos-(tamanio_hash);
+     System.out.println("restado "+pos);
+     }
+     }
+     Tabla_hash[pos] = p;
+     System.out.println("Resuelta");
+     }
+     if(cambiar>(tamanio_hash*0.5)){
+     System.out.println("Ya cambio");
+     
+     }
+     }
+    public String imprimir(){
+   String Lista="";
+   for (int i=0; i<Tabla_hash.length;i++){
+   Lista= Lista +(i)+" "+Tabla_hash[i];
+   Lista = Lista + " \n ";
+   }
+   Lista = Lista + "";
+   return Lista;
+   }
 }
