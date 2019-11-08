@@ -13,14 +13,13 @@ import java.util.ArrayList;
  */
 public class Proyecto2 {
     public static int tamanio_hash = 7;
-    public static ArrayList Tabla_hash = new ArrayList();
+    public static ArrayList Tabla_hash= new ArrayList();
     public static ArrayList<Integer> Tabla_francisco = new ArrayList<>();
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
         Inicio v = new Inicio();
         v.show();
         for(int i=0; i<7;i++){

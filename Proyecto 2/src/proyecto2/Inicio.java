@@ -5,6 +5,10 @@
  */
 package proyecto2;
 
+import java.util.Iterator;
+import javax.swing.JOptionPane;
+import static proyecto2.Proyecto2.Tabla_hash;
+
 /**
  *
  * @author Davis
@@ -46,6 +50,11 @@ public class Inicio extends javax.swing.JFrame {
         jLabel3.setText("Contraseña");
 
         jButton1.setText("Ingresar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Registrar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -108,6 +117,16 @@ public class Inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        boolean re =buscar(jTextField1.getText(),jPasswordField1.getText());
+        if (re==true){
+            JOptionPane.showMessageDialog(null, "Bienvenido");
+        }else{
+        JOptionPane.showMessageDialog(null, "Las credenciales son incorrectas.");
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -152,4 +171,21 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+  public boolean buscar(String user, String pass){
+  boolean existe=false;
+  Iterator<Usuario> itrUsuario = Tabla_hash.iterator();
+  int i=0;
+  while(itrUsuario.hasNext()){
+  Usuario Table = itrUsuario.next();
+  if(Tabla_hash.get(i)==null){
+  
+  }else{
+  if(user.equalsIgnoreCase(Table.getUser()) && pass.equals(Table.getPass())){
+  existe=true;
+  }
+  }
+  i++;
+  }
+  return existe;
+  }
 }

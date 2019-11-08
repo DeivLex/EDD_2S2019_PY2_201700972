@@ -5,6 +5,7 @@
  */
 package proyecto2;
 
+import java.util.Iterator;
 import javax.swing.JOptionPane;
 import static proyecto2.Proyecto2.Tabla_francisco;
 import static proyecto2.Proyecto2.Tabla_hash;
@@ -123,14 +124,19 @@ public class Registrar extends javax.swing.JFrame {
         String contra = jTextField2.getText();
         String separado[];
         separado = contra.split("");
-        if(separado.length>7){    
+        //if(separado.length>7){
+        boolean re =buscar(jTextField1.getText());
+        if (re==false){
         insertar(jTextField1.getText(),jTextField2.getText());
         jTextField1.setText("");
         jTextField2.setText("");
         System.out.println(imprimir());
         }else{
-        JOptionPane.showMessageDialog(null, "Contraseña con al menos 8 caracteres");
+            JOptionPane.showMessageDialog(null, "Nombre de usuario ya existe");
         }
+        //}else{
+        //JOptionPane.showMessageDialog(null, "Contraseña con al menos 8 caracteres");
+        //}
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -217,12 +223,38 @@ public class Registrar extends javax.swing.JFrame {
      }
      }
     public String imprimir(){
-   String Lista="";
-   for (int i=0; i<Tabla_hash.size();i++){
-   Lista= Lista +(i+1)+" "+Tabla_hash.get(i);
+    Iterator<Usuario> itrUsuario = Tabla_hash.iterator();
+    String Lista="";
+    int i=0;
+   while(itrUsuario.hasNext()){
+   Usuario Table = itrUsuario.next();
+    if(Tabla_hash.get(i)==null){
+    Lista= Lista +(i)+" "+"null";
    Lista = Lista + " \n ";
+    }else{
+   Lista= Lista +(i)+" "+"Nombre: "+Table.getUser()+" Contraseña:"+Table.getPass();
+   Lista = Lista + " \n ";
+    }
+   i++;
    }
    Lista = Lista + "";
    return Lista;
    }
+  public boolean buscar(String user){
+  boolean existe=false;
+  Iterator<Usuario> itrUsuario = Tabla_hash.iterator();
+  int i=0;
+  while(itrUsuario.hasNext()){
+  Usuario Table = itrUsuario.next();
+  if(Tabla_hash.get(i)==null){
+  
+  }else{
+  if(user.equalsIgnoreCase(Table.getUser())){
+  existe=true;
+  }
+  }
+  i++;
+  }
+  return existe;
+  }
 }
