@@ -183,7 +183,7 @@ public class Registrar extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
-    int cambiar=0;
+    int cambiar=1;
     int tam=0;
     private static int Hash(String Clave) {            
      int valor = Clave.charAt(0);

@@ -22,7 +22,8 @@ public class Proyecto2 {
     public static void main(String[] args) {
         Inicio v = new Inicio();
         v.show();
-        for(int i=0; i<7;i++){
+        Tabla_hash.add(new Usuario("a","",0,""));
+        for(int i=0; i<6;i++){
         Tabla_hash.add(null);
         }
         Tabla_francisco.add(4);
