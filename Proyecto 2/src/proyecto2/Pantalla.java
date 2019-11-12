@@ -5,10 +5,6 @@
  */
 package proyecto2;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
 
 /**
  *
@@ -95,6 +91,8 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        CargaMasiva v = new CargaMasiva();
+        v.show();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
