@@ -5,6 +5,8 @@
  */
 package proyecto2;
 
+import java.util.List;
+
 /**
  *
  * @author Davis
@@ -20,6 +22,9 @@ public class Usuario {
         this.Pass = Pass;
         this.Id = Id;
         this.Time = Time;
+    }
+    public Usuario(){
+    
     }
 
     public String getUser() {
@@ -52,7 +57,5 @@ public class Usuario {
 
     public void setTime(String Time) {
         this.Time = Time;
-    }
-
-    
+    }  
 }

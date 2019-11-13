@@ -120,7 +120,9 @@ public class Inicio extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         boolean re =buscar(jTextField1.getText(),jPasswordField1.getText());
         if (re==true){
-        Pantalla v = new Pantalla();
+        /*Pantalla v = new Pantalla();
+        v.show();*/
+        PantallaUsuario v = new PantallaUsuario();
         v.show();
         this.dispose();
         }else{

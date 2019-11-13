@@ -124,7 +124,7 @@ public class Registrar extends javax.swing.JFrame {
         String contra = jTextField2.getText();
         String separado[];
         separado = contra.split("");
-        //if(separado.length>7){
+        if(separado.length>7){
         boolean re =buscar(jTextField1.getText());
         if (re==false){
         insertar(jTextField1.getText(),jTextField2.getText());
@@ -134,9 +134,9 @@ public class Registrar extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Nombre de usuario ya existe");
         }
-        //}else{
-        //JOptionPane.showMessageDialog(null, "Contraseña con al menos 8 caracteres");
-        //}
+        }else{
+        JOptionPane.showMessageDialog(null, "Contraseña con al menos 8 caracteres");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -223,19 +223,15 @@ public class Registrar extends javax.swing.JFrame {
      }
      }
     public String imprimir(){
-    Iterator<Usuario> itrUsuario = Tabla_hash.iterator();
     String Lista="";
-    int i=0;
-   while(itrUsuario.hasNext()){
-   Usuario Table = itrUsuario.next();
+   for(int i=0;i<Tabla_hash.size();i++){
     if(Tabla_hash.get(i)==null){
     Lista= Lista +(i)+" "+"null";
    Lista = Lista + " \n ";
     }else{
-   Lista= Lista +(i)+" "+"Nombre: "+Table.getUser()+" Contraseña:"+Table.getPass();
+   Lista= Lista +(i)+" "+"Nombre: "+Tabla_hash.get(i).getUser()+" Contraseña:"+Tabla_hash.get(i).getPass();
    Lista = Lista + " \n ";
     }
-   i++;
    }
    Lista = Lista + "";
    return Lista;

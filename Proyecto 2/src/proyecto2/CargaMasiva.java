@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -85,18 +86,25 @@ public class CargaMasiva extends javax.swing.JFrame {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
         for(int i=0;i<UpUser.size();i++){
+        String contra = UpPass.get(i);
+        String separado[];
+        separado = contra.split("");
+        if(separado.length>7){
         boolean re=buscar(UpUser.get(i));
         if (re==false){    
         insertar(UpUser.get(i), UpPass.get(i));
         }else{
         Problemas.add("Usuario: "+UpUser.get(i)+" Contraseña: "+UpPass.get(i)+" Error: Usuario Repetido");
         }
+        }else{
+        Problemas.add("Usuario: "+UpUser.get(i)+" Contraseña: "+UpPass.get(i)+" Error: Contraseña menor a 8 caracteres");
+        }
         }
         System.out.println(imprimir());
-        /*for(int i=0;i<Problemas.size();i++){
+        for(int i=0;i<Problemas.size();i++){
         System.out.println(Problemas.get(i));
-        }*/
-        //JOptionPane.showMessageDialog(null, "Carga Completa");
+        }
+        JOptionPane.showMessageDialog(null, "Carga Completa");
     }//GEN-LAST:event_jFileChooser1ActionPerformed
 
     /**
@@ -193,20 +201,16 @@ public class CargaMasiva extends javax.swing.JFrame {
      tam++;
      }
      }
-    public String imprimir(){
-    Iterator<Usuario> itrUsuario = Tabla_hash.iterator();
+        public String imprimir(){
     String Lista="";
-    int i=0;
-   while(itrUsuario.hasNext()){
-   Usuario Table = itrUsuario.next();
+   for(int i=0;i<Tabla_hash.size();i++){
     if(Tabla_hash.get(i)==null){
     Lista= Lista +(i)+" "+"null";
    Lista = Lista + " \n ";
     }else{
-   Lista= Lista +(i)+" "+"Nombre: "+Table.getUser()+" Contraseña:"+Table.getPass();
+   Lista= Lista +(i)+" "+"Nombre: "+Tabla_hash.get(i).getUser()+" Contraseña:"+Tabla_hash.get(i).getPass();
    Lista = Lista + " \n ";
     }
-   i++;
    }
    Lista = Lista + "";
    return Lista;

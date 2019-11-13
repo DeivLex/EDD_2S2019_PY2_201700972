@@ -6,6 +6,7 @@
 package proyecto2;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Proyecto2 {
     public static int tamanio_hash = 7;
-    public static ArrayList Tabla_hash= new ArrayList();
+    public static ArrayList<Usuario> Tabla_hash= new ArrayList();
     public static ArrayList<Integer> Tabla_francisco = new ArrayList<>();
     
     /**
@@ -22,7 +23,7 @@ public class Proyecto2 {
     public static void main(String[] args) {
         Inicio v = new Inicio();
         v.show();
-        Tabla_hash.add(new Usuario("a","",0,""));
+        Tabla_hash.add(new Usuario("","",0,"Time"));
         for(int i=0; i<6;i++){
         Tabla_hash.add(null);
         }
@@ -44,7 +45,6 @@ public class Proyecto2 {
         Tabla_francisco.add(6);
         Tabla_francisco.add(2);
         //----------------------------
-        
     }
     
 }
