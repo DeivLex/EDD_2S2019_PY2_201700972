@@ -11,8 +11,8 @@ import java.util.LinkedList;
  * @author beto
  */
 public class Arbol {
-    private Nodo raiz;
-    private Nodo Aux;
+    private NodoA raiz;
+    private NodoA Aux;
     private boolean rotacion=false;
     private boolean aumento=false;
     private boolean borrado=false;
@@ -21,16 +21,16 @@ public class Arbol {
     private boolean buscar=false;
     private int UltimaPosicionCadenaInterna=0;//para la comparacion de cadenas
     private boolean CadenaAceptada=false; // para la comparacion de cadenas
-    private LinkedList<Nodo> Lista = new LinkedList<Nodo>();
+    private LinkedList<NodoA> Lista = new LinkedList<NodoA>();
      private LinkedList<String> grafica = new LinkedList<String>();
-    private Nodo Busqueda;
-    private Nodo nuevaRaiz;
-    public void insertar(int llave,String Titulo,String Descripcion,Nodo AsociacionABB){
+    private NodoA Busqueda;
+    private NodoA nuevaRaiz;
+    public void insertar(int llave,String Titulo,String Descripcion,NodoA AsociacionABB){
         insertar(llave,Titulo,Descripcion,AsociacionABB,raiz);
     }
-    private Nodo insertar(int n,String Titulo,String Descripcion,Nodo AsociacionABB,Nodo A){
+    private NodoA insertar(int n,String Titulo,String Descripcion,NodoA AsociacionABB,NodoA A){
         if(A==null){
-            A = new Nodo();
+            A = new NodoA();
             if(raiz==null){
             raiz = A;
             }
@@ -122,14 +122,14 @@ public class Arbol {
         }
         return null;
     }
-    public Nodo RetornarRaiz(){
+    public NodoA RetornarRaiz(){
         return raiz;
     }
     // rotaciones
     //rotacion izquierda izquierda
-    private Nodo II(Nodo A){
+    private NodoA II(NodoA A){
         rotacion=true;
-        Nodo aux = A.izquierda.derecha;
+        NodoA aux = A.izquierda.derecha;
         A.izquierda.derecha=A;
         if(aux==null){
            if(A.derecha!=null)A.izquierda.balance++;
@@ -140,7 +140,7 @@ public class Arbol {
            if(A.derecha==null)A.izquierda.balance++;
                }
        
-        Nodo aux2 = A.izquierda;
+        NodoA aux2 = A.izquierda;
         A.izquierda=aux;
         if(aux==null){
             if(A.derecha!=null)A.balance++;
@@ -155,9 +155,9 @@ public class Arbol {
         return aux2;
     }
     //rotacion derecha derecha
-    private Nodo DD(Nodo A){
+    private NodoA DD(NodoA A){
         rotacion=true;
-        Nodo aux = A.derecha.izquierda;
+        NodoA aux = A.derecha.izquierda;
         A.derecha.izquierda = A;
         if(aux==null){
             if(A.izquierda!=null)A.derecha.balance--;
@@ -168,7 +168,7 @@ public class Arbol {
             
         }
       
-        Nodo aux2 = A.derecha;
+        NodoA aux2 = A.derecha;
         A.derecha = aux;
         if(aux==null){
             if(A.izquierda!=null)A.balance--;
@@ -190,24 +190,24 @@ public class Arbol {
         
     }
     //rotacion izquierda derecha
-    private Nodo ID(Nodo A){
+    private NodoA ID(NodoA A){
       A.izquierda=DD(A.izquierda);
         return II(A);
     }
     //rotacion derecha izquierda
-    private Nodo DI(Nodo A){
+    private NodoA DI(NodoA A){
         A.derecha=II(A.derecha);
         return DD(A);
     }
     //buscar
-    public Nodo Buscar(int llave){//buscar por llave
+    public NodoA Buscar(int llave){//buscar por llave
         return Buscar(llave,raiz);
     } //busqueda por llave
-    public LinkedList<Nodo> Buscar(String Titulo){
+    public LinkedList<NodoA> Buscar(String Titulo){
         Lista.clear();
         return Buscar(Titulo,raiz);
     }
-    private LinkedList<Nodo> Buscar(String Titulo,Nodo A){
+    private LinkedList<NodoA> Buscar(String Titulo,NodoA A){
         if(A!=null){
         if(ComparacionCadenas(Titulo,A.Titulo,0,0)==true){
             Lista.add(A);
@@ -241,7 +241,7 @@ public class Arbol {
         }
         return CadenaAceptada;
     }
-    private Nodo Buscar(int llave,Nodo A){//busqueda interna por llave
+    private NodoA Buscar(int llave,NodoA A){//busqueda interna por llave
         if(A!=null){
         if(llave<A.llave){
           Buscar(llave,A.izquierda);
@@ -263,7 +263,7 @@ public class Arbol {
     public void eliminar(int llave){
         eliminar(llave,raiz);
     }
-    private void eliminar(int llave,Nodo A){
+    private void eliminar(int llave,NodoA A){
         if(raiz.izquierda!=null || raiz.derecha!=null){
         if(A!=null){
             if(A.llave<llave){
@@ -321,8 +321,8 @@ public class Arbol {
            raiz=null; 
         }
     }
-    private Nodo Aux2;
-    private Nodo Reemplazar(Nodo A,Nodo buscado,boolean estado){
+    private NodoA Aux2;
+    private NodoA Reemplazar(NodoA A,NodoA buscado,boolean estado){
      if(estado==true){
          Reemplazar(A.izquierda,buscado,false);
          if(nuevaRaiz!=null && nuevaRaiz.hashCode()!=raiz.hashCode())
@@ -368,7 +368,7 @@ public class Arbol {
       //if(A.derecha!=null)Aux2=null;
       return Aux2;
      }
-    private boolean rotarBorrado(Nodo A){
+    private boolean rotarBorrado(NodoA A){
         if(A.balance<-1)
         {
                       if(A.izquierda.balance>0)
@@ -405,7 +405,7 @@ public class Arbol {
         grafica.clear();
         return graficar(raiz);
     }
-    private LinkedList<String> graficar(Nodo A){
+    private LinkedList<String> graficar(NodoA A){
         if(A!=null){
             if(A.izquierda!=null){
                 grafica.add(A.llave+" izquierda "+A.izquierda.llave);

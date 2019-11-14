@@ -5,7 +5,17 @@
  */
 package proyecto2;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static proyecto2.Proyecto2.Tabla_francisco;
 import static proyecto2.Proyecto2.Tabla_hash;
@@ -127,7 +137,8 @@ public class Registrar extends javax.swing.JFrame {
         if(separado.length>7){
         boolean re =buscar(jTextField1.getText());
         if (re==false){
-        insertar(jTextField1.getText(),jTextField2.getText());
+        String passE = sha_256(jTextField2.getText());
+        insertar(jTextField1.getText(),passE);
         jTextField1.setText("");
         jTextField2.setText("");
         System.out.println(imprimir());
@@ -195,9 +206,23 @@ public class Registrar extends javax.swing.JFrame {
      }
 
      public void insertar (String p,String p2) {
+     //-------------
+        List<List<Matriz_Ad>> CarpetaRaiz =new ArrayList<List<Matriz_Ad>>();
+        for(int i=0;i<20;i++){
+        CarpetaRaiz.add(new ArrayList<Matriz_Ad>());
+        for(int j=0;j<20;j++){
+        CarpetaRaiz.get(i).add(new Matriz_Ad(null,null));
+        }
+        }
+        CarpetaRaiz.get(0).set(0,new Matriz_Ad("0",null));
+        CarpetaRaiz.get(0).set(1,new Matriz_Ad("/",null)); 
+        CarpetaRaiz.get(1).set(0,new Matriz_Ad("/",null));
+        CarpetaRaiz.get(1).set(1,new Matriz_Ad(null,null));
+     //-------------
+    String time=fecha();
      int pos = this.Hash(p);
      if(Tabla_hash.get(pos)==null){
-     Tabla_hash.set(pos, new Usuario(p,p2,pos,"time"));
+     Tabla_hash.set(pos, new Usuario(p,p2,pos,time,CarpetaRaiz));
      cambiar++;
     }else{
      System.out.println("Colision "+pos);
@@ -210,7 +235,7 @@ public class Registrar extends javax.swing.JFrame {
      pos=pos-(tamanio_hash);
      }
      }
-     Tabla_hash.set(pos,new Usuario(p,p2,pos,"time"));
+     Tabla_hash.set(pos,new Usuario(p,p2,pos,time,CarpetaRaiz));
      cambiar++;
      }
      if(cambiar>(tamanio_hash*0.5)){
@@ -229,7 +254,7 @@ public class Registrar extends javax.swing.JFrame {
     Lista= Lista +(i)+" "+"null";
    Lista = Lista + " \n ";
     }else{
-   Lista= Lista +(i)+" "+"Nombre: "+Tabla_hash.get(i).getUser()+" Contraseña:"+Tabla_hash.get(i).getPass();
+   Lista= Lista +(i)+" "+"Nombre: "+Tabla_hash.get(i).getUser()+" Contraseña:"+Tabla_hash.get(i).getPass()+" Time:"+Tabla_hash.get(i).getTime();
    Lista = Lista + " \n ";
     }
    }
@@ -253,4 +278,26 @@ public class Registrar extends javax.swing.JFrame {
   }
   return existe;
   }
-}
+  public String fecha(){
+    LocalDateTime myDateObj = LocalDateTime.now();  
+    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");  
+    String formattedDate = myDateObj.format(myFormatObj);  
+    return formattedDate;
+  }
+  public String sha_256(String key){
+            MessageDigest md = null;
+            String key_sha256 = (String)key;
+        try {            
+            md = MessageDigest.getInstance("SHA-256");
+            md.reset();
+            md.update(key_sha256.getBytes("utf8"));
+            key_sha256 = String.format("%064x", new BigInteger(1 , md.digest()));
+            return key_sha256;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e){
+        e.printStackTrace();
+        }
+      return "";
+  }
+  }

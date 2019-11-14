@@ -5,6 +5,7 @@
  */
 package proyecto2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ public class Usuario {
     private String Pass;
     private int Id;
     private String Time;
+    private List<List<Matriz_Ad>> Carpetas;
 
     public Usuario(String User, String Pass, int Id, String Time) {
         this.User = User;
@@ -23,10 +25,15 @@ public class Usuario {
         this.Id = Id;
         this.Time = Time;
     }
-    public Usuario(){
-    
-    }
 
+    public Usuario(String User, String Pass, int Id, String Time, List<List<Matriz_Ad>> Carpetas) {
+        this.User = User;
+        this.Pass = Pass;
+        this.Id = Id;
+        this.Time = Time;
+        this.Carpetas = Carpetas;
+    }
+    
     public String getUser() {
         return User;
     }
@@ -58,4 +65,13 @@ public class Usuario {
     public void setTime(String Time) {
         this.Time = Time;
     }  
+
+    public List<List<Matriz_Ad>> getCarpetas() {
+        return Carpetas;
+    }
+
+    public void setCarpetas(List<List<Matriz_Ad>> Carpetas) {
+        this.Carpetas = Carpetas;
+    }
+
 }

@@ -5,9 +5,14 @@
  */
 package proyecto2;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
 import static proyecto2.Proyecto2.Tabla_hash;
+import static proyecto2.Proyecto2.Login;
 
 /**
  *
@@ -184,12 +189,31 @@ public class Inicio extends javax.swing.JFrame {
   if(Tabla_hash.get(i)==null){
   
   }else{
-  if(user.equalsIgnoreCase(Table.getUser()) && pass.equals(Table.getPass())){
+  String passE=sha_256(pass);
+  if(user.equalsIgnoreCase(Table.getUser()) && passE.equals(Table.getPass())){
   existe=true;
+    Login=i;
   }
   }
   i++;
   }
+  System.out.println(Login);
   return existe;
+  }
+    public String sha_256(String key){
+            MessageDigest md = null;
+            String key_sha256 = (String)key;
+        try {            
+            md = MessageDigest.getInstance("SHA-256");
+            md.reset();
+            md.update(key_sha256.getBytes("utf8"));
+            key_sha256 = String.format("%064x", new BigInteger(1 , md.digest()));
+            return key_sha256;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e){
+        e.printStackTrace();
+        }
+      return "";
   }
 }

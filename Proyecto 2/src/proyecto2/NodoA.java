@@ -8,17 +8,17 @@ package proyecto2;
  *
  * @author beto
  */
-public class Nodo {
+public class NodoA {
     ////////////////////VARIABLES MANEJO//////////////////////////////// 
     int llave;
     int balance;
     int rotacion;
-    Nodo izquierda;
-    Nodo derecha;
-    Nodo AsociacionABB;//este es el apuntador para asociar el Nodo del Arbl AVL "noticia" con el Arbol de "complementos" ABB
+    NodoA izquierda;
+    NodoA derecha;
+    NodoA AsociacionABB;//este es el apuntador para asociar el Nodo del Arbl AVL "noticia" con el Arbol de "complementos" ABB
     ////////////////////VARIABLES DE INFORMACION/////////////////////////
     String Titulo,Descripcion,Path;
-    Nodo(){
+    NodoA(){
         llave=0;
         balance=0;
         rotacion=0;
@@ -35,10 +35,10 @@ public class Nodo {
     public void Cambiar_llave(int llave){
         this.llave=llave;
     }
-    public void Cambiar_izquierda(Nodo izquierda){
+    public void Cambiar_izquierda(NodoA izquierda){
         this.izquierda=izquierda;
     }
-    public void Cambiar_derecha(Nodo derecha){
+    public void Cambiar_derecha(NodoA derecha){
         this.derecha=derecha;
     }
      public void Cambiar_Titulo(String Titulo){
@@ -50,7 +50,7 @@ public class Nodo {
        public void Cambiar_Path(String Path){
         this.Path=Path;
     }
-        public void Cambiar_AsociacionABB(Nodo AsociacionABB){
+        public void Cambiar_AsociacionABB(NodoA AsociacionABB){
         this.AsociacionABB=AsociacionABB;
     }
 }

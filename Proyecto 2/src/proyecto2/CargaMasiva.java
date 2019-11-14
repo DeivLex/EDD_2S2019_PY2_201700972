@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -174,9 +176,10 @@ public class CargaMasiva extends javax.swing.JFrame {
      }
 
      public void insertar (String p,String p2) {
+         String time=fecha();
      int pos = this.Hash(p);
      if(Tabla_hash.get(pos)==null){
-     Tabla_hash.set(pos, new Usuario(p,p2,pos,"time"));
+     Tabla_hash.set(pos, new Usuario(p,p2,pos,time));
      cambiar++;
     }else{
      System.out.println("Colision "+pos);
@@ -189,7 +192,7 @@ public class CargaMasiva extends javax.swing.JFrame {
      pos=pos-(tamanio_hash);
      }
      }
-     Tabla_hash.set(pos,new Usuario(p,p2,pos,"time"));
+     Tabla_hash.set(pos,new Usuario(p,p2,pos,time));
      cambiar++;
      }
      if(cambiar>(tamanio_hash*0.5)){
@@ -231,5 +234,11 @@ public class CargaMasiva extends javax.swing.JFrame {
   i++;
   }
   return existe;
+  }
+    public String fecha(){
+    LocalDateTime myDateObj = LocalDateTime.now();  
+    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");  
+    String formattedDate = myDateObj.format(myFormatObj);  
+    return formattedDate;
   }
 }
