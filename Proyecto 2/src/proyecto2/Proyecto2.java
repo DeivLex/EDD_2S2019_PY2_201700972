@@ -5,12 +5,7 @@
  */
 package proyecto2;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -53,5 +48,6 @@ public class Proyecto2 {
         Tabla_francisco.add(6);
         Tabla_francisco.add(2);
         }
+        //-----------------------
     }
 }

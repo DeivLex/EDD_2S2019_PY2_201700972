@@ -13,11 +13,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
 import javax.swing.JOptionPane;
 import static proyecto2.Proyecto2.Tabla_francisco;
 import static proyecto2.Proyecto2.Tabla_hash;
@@ -83,9 +79,9 @@ public class CargaMasiva extends javax.swing.JFrame {
             this.dispose();
             // TODO add your handling code here:
         } catch (IOException ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         } catch (CsvValidationException ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         for(int i=0;i<UpUser.size();i++){
         String contra = UpPass.get(i);
@@ -176,26 +172,41 @@ public class CargaMasiva extends javax.swing.JFrame {
      }
 
      public void insertar (String p,String p2) {
-         String time=fecha();
+     //-------------
+        List<List<Matriz_Ad>> CarpetaRaiz =new ArrayList<List<Matriz_Ad>>();
+        for(int i=0;i<20;i++){
+        CarpetaRaiz.add(new ArrayList<Matriz_Ad>());
+        for(int j=0;j<20;j++){
+        CarpetaRaiz.get(i).add(new Matriz_Ad(null,new Arbol()));
+        }
+        }
+        CarpetaRaiz.get(0).set(0,new Matriz_Ad("0",new Arbol()));
+        CarpetaRaiz.get(0).set(1,new Matriz_Ad("/",new Arbol())); 
+        CarpetaRaiz.get(1).set(0,new Matriz_Ad("/",new Arbol()));
+        CarpetaRaiz.get(1).set(1,new Matriz_Ad(null,new Arbol()));
+     //-------------
+    String time=fecha();
      int pos = this.Hash(p);
      if(Tabla_hash.get(pos)==null){
-     Tabla_hash.set(pos, new Usuario(p,p2,pos,time));
+     Tabla_hash.set(pos, new Usuario(p,p2,pos,time,CarpetaRaiz));
      cambiar++;
     }else{
      System.out.println("Colision "+pos);
      if(pos==1 || pos==0){
      pos=pos+2;
      }
+     int k=0;
      while(Tabla_hash.get(pos)!=null){
-     pos=(pos*pos);
-     while(pos>tamanio_hash){
+     pos=(pos*pos)+k;
+     while(pos>tamanio_hash-1){
      pos=pos-(tamanio_hash);
      }
+     k++;
      }
-     Tabla_hash.set(pos,new Usuario(p,p2,pos,time));
+     Tabla_hash.set(pos,new Usuario(p,p2,pos,time,CarpetaRaiz));
      cambiar++;
      }
-     if(cambiar>(tamanio_hash*0.5)){
+     if(cambiar>(tamanio_hash*0.75)){
      System.out.println("Ya cambio");
      tamanio_hash+=Tabla_francisco.get(tam);
      for(int i=0;i<Tabla_francisco.get(tam);i++){

@@ -5,8 +5,8 @@
  */
 package proyecto2;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import javax.swing.tree.TreeModel;
 
 /**
  *
@@ -18,6 +18,7 @@ public class Usuario {
     private int Id;
     private String Time;
     private List<List<Matriz_Ad>> Carpetas;
+    private TreeModel modelo;
 
     public Usuario(String User, String Pass, int Id, String Time) {
         this.User = User;
@@ -72,6 +73,14 @@ public class Usuario {
 
     public void setCarpetas(List<List<Matriz_Ad>> Carpetas) {
         this.Carpetas = Carpetas;
+    }
+
+    public TreeModel getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(TreeModel modelo) {
+        this.modelo = modelo;
     }
 
 }

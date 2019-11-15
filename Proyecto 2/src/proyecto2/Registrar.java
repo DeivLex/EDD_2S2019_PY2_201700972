@@ -11,11 +11,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
 import javax.swing.JOptionPane;
 import static proyecto2.Proyecto2.Tabla_francisco;
 import static proyecto2.Proyecto2.Tabla_hash;
@@ -211,13 +207,13 @@ public class Registrar extends javax.swing.JFrame {
         for(int i=0;i<20;i++){
         CarpetaRaiz.add(new ArrayList<Matriz_Ad>());
         for(int j=0;j<20;j++){
-        CarpetaRaiz.get(i).add(new Matriz_Ad(null,null));
+        CarpetaRaiz.get(i).add(new Matriz_Ad(null,new Arbol()));
         }
         }
-        CarpetaRaiz.get(0).set(0,new Matriz_Ad("0",null));
-        CarpetaRaiz.get(0).set(1,new Matriz_Ad("/",null)); 
-        CarpetaRaiz.get(1).set(0,new Matriz_Ad("/",null));
-        CarpetaRaiz.get(1).set(1,new Matriz_Ad(null,null));
+        CarpetaRaiz.get(0).set(0,new Matriz_Ad("0",new Arbol()));
+        CarpetaRaiz.get(0).set(1,new Matriz_Ad("/",new Arbol())); 
+        CarpetaRaiz.get(1).set(0,new Matriz_Ad("/",new Arbol()));
+        CarpetaRaiz.get(1).set(1,new Matriz_Ad(null,new Arbol()));
      //-------------
     String time=fecha();
      int pos = this.Hash(p);
@@ -229,16 +225,18 @@ public class Registrar extends javax.swing.JFrame {
      if(pos==1 || pos==0){
      pos=pos+2;
      }
+     int k=0;
      while(Tabla_hash.get(pos)!=null){
-     pos=(pos*pos);
-     while(pos>tamanio_hash){
+     pos=(pos*pos)+k;
+     while(pos>tamanio_hash-1){
      pos=pos-(tamanio_hash);
      }
+     k++;
      }
      Tabla_hash.set(pos,new Usuario(p,p2,pos,time,CarpetaRaiz));
      cambiar++;
      }
-     if(cambiar>(tamanio_hash*0.5)){
+     if(cambiar>(tamanio_hash*0.75)){
      System.out.println("Ya cambio");
      tamanio_hash+=Tabla_francisco.get(tam);
      for(int i=0;i<Tabla_francisco.get(tam);i++){

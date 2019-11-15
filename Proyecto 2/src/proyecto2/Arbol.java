@@ -25,33 +25,33 @@ public class Arbol {
      private LinkedList<String> grafica = new LinkedList<String>();
     private NodoA Busqueda;
     private NodoA nuevaRaiz;
-    public void insertar(int llave,String Titulo,String Descripcion,NodoA AsociacionABB){
-        insertar(llave,Titulo,Descripcion,AsociacionABB,raiz);
+    public void insertar(String Titulo,String Descripcion,String Time,String Propietario){
+        insertar(Titulo,Descripcion,Time,Propietario,raiz);
     }
-    private NodoA insertar(int n,String Titulo,String Descripcion,NodoA AsociacionABB,NodoA A){
+    private NodoA insertar(String Titulo,String Descripcion,String Time,String Propietario,NodoA A){
         if(A==null){
             A = new NodoA();
             if(raiz==null){
             raiz = A;
             }
-            A.Cambiar_llave(n);
             A.Cambiar_Balance(0);
             A.Cambiar_Titulo(Titulo);
             A.Cambiar_Descripcion(Descripcion);
-            A.Cambiar_AsociacionABB(AsociacionABB);
+            A.Cambiar_Time(Time);
+            A.Cambiar_Propietario(Propietario);
             return A;
         }
         else{
-            if(n<A.llave)
+            if(Titulo.compareTo(A.Titulo)<0)
             {
                 if(A.izquierda==null){
                     A.balance--;
                     aumento = (A.balance!=0);
-                     A.izquierda=insertar(n,Titulo,Descripcion,AsociacionABB,A.izquierda);
+                     A.izquierda=insertar(Titulo,Descripcion,Time,Propietario,A.izquierda);
                 }
                 else
                 {
-                    insertar(n,Titulo,Descripcion,AsociacionABB,A.izquierda);
+                    insertar(Titulo,Descripcion,Time,Propietario,A.izquierda);
                     if(aumento){
                         if(rotacion!=true){  
                             A.balance--;
@@ -87,11 +87,11 @@ public class Arbol {
                 {
                     A.balance++;
                     aumento = (A.balance!=0);
-                    A.derecha=insertar(n,Titulo,Descripcion,AsociacionABB,A.derecha);
+                    A.derecha=insertar(Titulo,Descripcion,Time,Propietario,A.derecha);
                 }
                 else
                 {
-                    insertar(n,Titulo,Descripcion,AsociacionABB,A.derecha);
+                    insertar(Titulo,Descripcion,Time,Propietario,A.derecha);
                     if(aumento){
                         if(rotacion!=true){
                             A.balance++;
@@ -200,10 +200,10 @@ public class Arbol {
         return DD(A);
     }
     //buscar
-    public NodoA Buscar(int llave){//buscar por llave
-        return Buscar(llave,raiz);
+    public NodoA Buscar(String Titulo){//buscar por llave
+        return Buscar(Titulo,raiz);
     } //busqueda por llave
-    public LinkedList<NodoA> Buscar(String Titulo){
+    /*public LinkedList<NodoA> Buscar(String Titulo){
         Lista.clear();
         return Buscar(Titulo,raiz);
     }
@@ -218,8 +218,7 @@ public class Arbol {
         Buscar(Titulo,A.derecha);
         }
         return Lista;
-        
-    }
+    }*/
     private boolean ComparacionCadenas(String CadenaIngresada,String CadenaInterna,int Ingresada,int Interna ){
         String posicion = CadenaIngresada.substring(Ingresada, Ingresada+1);
         if(posicion.equalsIgnoreCase(CadenaInterna.substring(Interna, Interna+1))){
@@ -241,15 +240,15 @@ public class Arbol {
         }
         return CadenaAceptada;
     }
-    private NodoA Buscar(int llave,NodoA A){//busqueda interna por llave
+    private NodoA Buscar(String Titulo,NodoA A){//busqueda interna por llave
         if(A!=null){
-        if(llave<A.llave){
-          Buscar(llave,A.izquierda);
+        if(Titulo.compareTo(A.Titulo)<0){
+          Buscar(Titulo,A.izquierda);
          
       }
       else{
-          if(llave>A.llave){
-            Buscar(llave,A.derecha);
+          if(Titulo.compareTo(A.Titulo)>0){
+            Buscar(Titulo,A.derecha);
           }
           else{
               this.Busqueda=A;
@@ -260,13 +259,13 @@ public class Arbol {
       return Busqueda;
        
     }//busque interna por llave
-    public void eliminar(int llave){
+    public void eliminar(String llave){
         eliminar(llave,raiz);
     }
-    private void eliminar(int llave,NodoA A){
+    private void eliminar(String llave,NodoA A){
         if(raiz.izquierda!=null || raiz.derecha!=null){
         if(A!=null){
-            if(A.llave<llave){
+            if(A.Titulo.compareTo(llave)<0){
                 eliminar(llave,A.derecha);
                 if(nuevaRaiz!=null && nuevaRaiz.hashCode()!=raiz.hashCode())
                 {
@@ -283,7 +282,7 @@ public class Arbol {
                     apuntado=false;
                 }
             }else{
-                if(A.llave>llave){
+                if(A.Titulo.compareTo(llave)>0){
                     eliminar(llave,A.izquierda);
                     if(nuevaRaiz!=null && nuevaRaiz.hashCode()!=raiz.hashCode())
                     {
@@ -300,7 +299,7 @@ public class Arbol {
                         apuntado=false;
                     }
                 }else{
-                    if(A.llave==llave){
+                    if(A.Titulo.equalsIgnoreCase(llave)){
                         borrado=true;
                         apuntado=true;
                         if(A.izquierda == null){
@@ -408,10 +407,10 @@ public class Arbol {
     private LinkedList<String> graficar(NodoA A){
         if(A!=null){
             if(A.izquierda!=null){
-                grafica.add(A.llave+" izquierda "+A.izquierda.llave);
+                grafica.add(A.Titulo+" izquierda "+A.izquierda.Titulo);
             }
             if(A.derecha!=null){
-                grafica.add(A.llave+" derecha "+A.derecha.llave);
+                grafica.add(A.Titulo+" derecha "+A.derecha.Titulo);
             }
             graficar(A.izquierda);
             graficar(A.derecha);

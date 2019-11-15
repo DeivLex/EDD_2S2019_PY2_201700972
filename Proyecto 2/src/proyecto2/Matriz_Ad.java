@@ -10,6 +10,7 @@ package proyecto2;
  * @author Davis
  */
 public class Matriz_Ad {
+    private String Padre;
     private String Nombre;
     private Arbol avl;
 
@@ -32,5 +33,13 @@ public class Matriz_Ad {
 
     public void setAvl(Arbol avl) {
         this.avl = avl;
+    }
+
+    public String getPadre() {
+        return Padre;
+    }
+
+    public void setPadre(String Padre) {
+        this.Padre = Padre;
     }
 }

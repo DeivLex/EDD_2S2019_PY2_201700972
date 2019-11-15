@@ -5,6 +5,18 @@
  */
 package proyecto2;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.*;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
@@ -32,6 +44,10 @@ public class PantallaUsuario extends javax.swing.JFrame {
         Border bordejpane2 = new TitledBorder(new EtchedBorder(), "Archivos");
         jPanel2.setBorder(bordejpane2);
         jLabel1.setText(Tabla_hash.get(Login).getUser());
+        if(Tabla_hash.get(Login).getModelo()!=null){
+        jTree1.setModel(Tabla_hash.get(Login).getModelo());
+        //---------------------------------
+        }
     }
 
     /**
@@ -123,12 +139,22 @@ public class PantallaUsuario extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jButton5.setText("Crear");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Modificar");
 
         jButton7.setText("Eliminar");
 
-        jButton8.setText("Subir");
+        jButton8.setText("Carga masiva");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -193,7 +219,7 @@ public class PantallaUsuario extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton9))
                     .addComponent(jScrollPane1))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,6 +244,7 @@ public class PantallaUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        Tabla_hash.get(Login).setModelo(jTree1.getModel());
         Inicio v = new Inicio();
         v.show();
         this.dispose();
@@ -230,6 +257,19 @@ public class PantallaUsuario extends javax.swing.JFrame {
             DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent();
             jLabel2.setText(selectedNode.getUserObject().toString());
             SelectActual=selectedNode.getUserObject().toString();
+            String separado[];
+            separado = SelectActual.split("");
+            boolean arch = true;
+            for(int i=0;i<separado.length;i++){
+            if(separado[i].equalsIgnoreCase(".")){
+            arch=false;
+            }
+            }
+            jButton5.setEnabled(arch);
+            jButton6.setEnabled(arch);
+            jButton7.setEnabled(arch);
+            jButton8.setEnabled(arch);
+            
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_jTree1MouseClicked
@@ -244,6 +284,7 @@ public class PantallaUsuario extends javax.swing.JFrame {
         if(Tabla_hash.get(Login).getCarpetas().get(i).get(0).getNombre()==null){
         Tabla_hash.get(Login).getCarpetas().get(0).get(i).setNombre(test);
         Tabla_hash.get(Login).getCarpetas().get(i).get(0).setNombre(test);
+        Tabla_hash.get(Login).getCarpetas().get(i).get(0).setPadre(SelectActual);
         j=i;
         break;
         }
@@ -261,10 +302,27 @@ public class PantallaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String actual2="";
         String test= JOptionPane.showInputDialog("Ingrese nuevo nombre: ");
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent();
-        
         selectedNode.setUserObject(test);
+        //------------------------------
+        int j=0;
+        for(int i =0;i<Tabla_hash.get(Login).getCarpetas().size();i++){
+        if(Tabla_hash.get(Login).getCarpetas().get(i).get(0).getNombre().equalsIgnoreCase(SelectActual)){
+        Tabla_hash.get(Login).getCarpetas().get(0).get(i).setNombre(test);
+        Tabla_hash.get(Login).getCarpetas().get(i).get(0).setNombre(test);
+        actual2 = Tabla_hash.get(Login).getCarpetas().get(i).get(0).getPadre();
+        j=i;
+        break;
+        }
+        }
+        for(int i=0;i<Tabla_hash.get(Login).getCarpetas().size();i++){
+        if(Tabla_hash.get(Login).getCarpetas().get(i).get(0).getNombre().equalsIgnoreCase(actual2)){
+        Tabla_hash.get(Login).getCarpetas().get(i).get(j).setNombre(actual2+"/"+test);
+        break;
+        }
+        }
         // reload jtree model
         DefaultTreeModel model = (DefaultTreeModel)jTree1.getModel();
         model.reload();
@@ -292,9 +350,46 @@ public class PantallaUsuario extends javax.swing.JFrame {
     }
     System.out.println();
     }
-
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    JFileChooser file1=new JFileChooser();
+    file1.showOpenDialog(this);
+    File file = file1.getSelectedFile(); 
+    String select = file.getAbsolutePath();
+    
+        try {
+            leer(select);
+            //for(int i=0; i<Titulo.size();i++){
+            insertar(Titulo.get(0),Contenido.get(0));
+            insertar(Titulo.get(1),Contenido.get(1));
+            //}
+            // TODO add your handling code here:
+        } catch (IOException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CsvValidationException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        String test= JOptionPane.showInputDialog("Ingrese nombre del archivo: ");
+        String cont= JOptionPane.showInputDialog("Ingrese contenido del archivo: ");
+        String fecha = fecha();
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent();
+        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(test);
+        selectedNode.add(newNode);
+        for(int i =0;i<Tabla_hash.get(Login).getCarpetas().size();i++){
+        if(Tabla_hash.get(Login).getCarpetas().get(i).get(0).getNombre().equalsIgnoreCase(SelectActual)){
+        Tabla_hash.get(Login).getCarpetas().get(i).get(0).getAvl().insertar(test, cont,fecha,Tabla_hash.get(Login).getUser());
+        break;
+        }
+        }
+        // reload jtree model
+        DefaultTreeModel model = (DefaultTreeModel)jTree1.getModel();
+        model.reload();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -348,5 +443,43 @@ public class PantallaUsuario extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
-String SelectActual;
+    String SelectActual="/";
+    static String[] fila = null;
+    static ArrayList<String> Titulo= new ArrayList();
+    static ArrayList<String> Contenido= new ArrayList();
+
+  public String fecha(){
+    LocalDateTime myDateObj = LocalDateTime.now();  
+    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");  
+    String formattedDate = myDateObj.format(myFormatObj);  
+    return formattedDate;
+  }
+      public static void leer(String archivo) throws FileNotFoundException, IOException, CsvValidationException{
+    String archCSV = archivo;
+    CSVReader csvReader = new CSVReader(new FileReader(archCSV));
+    int i=0;
+    while((fila = csvReader.readNext()) != null) {
+        if(i>0){
+            Titulo.add(fila[0]);
+            Contenido.add(fila[1]);
+        }
+        i++;
+    }
+    csvReader.close();
+    }
+    public void insertar(String test,String cont){
+        String fecha = fecha();
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent();
+        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(test);
+        selectedNode.add(newNode);
+        for(int i =0;i<Tabla_hash.get(Login).getCarpetas().size();i++){
+        if(Tabla_hash.get(Login).getCarpetas().get(i).get(0).getNombre().equalsIgnoreCase(SelectActual)){
+        Tabla_hash.get(Login).getCarpetas().get(i).get(0).getAvl().insertar(test, cont,fecha,Tabla_hash.get(Login).getUser());
+        break;
+        }
+        }
+        // reload jtree model
+        DefaultTreeModel model = (DefaultTreeModel)jTree1.getModel();
+        model.reload();
+    }
 }
