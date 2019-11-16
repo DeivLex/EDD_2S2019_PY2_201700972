@@ -7,11 +7,19 @@ package proyecto2;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import java.awt.Desktop;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.*;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import static java.lang.Thread.sleep;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
@@ -24,8 +32,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
-import static proyecto2.Proyecto2.Tabla_hash;
 import static proyecto2.Proyecto2.Login;
+import static proyecto2.Proyecto2.Tabla_francisco;
+import static proyecto2.Proyecto2.Tabla_hash;
+import static proyecto2.Proyecto2.tamanio_hash;
+import static proyecto2.Registrar.cambiar;
+import static proyecto2.Registrar.tam;
 
 /**
  *
@@ -43,6 +55,10 @@ public class PantallaUsuario extends javax.swing.JFrame {
         jPanel1.setBorder(bordejpanel);
         Border bordejpane2 = new TitledBorder(new EtchedBorder(), "Archivos");
         jPanel2.setBorder(bordejpane2);
+        Border bordejpane3 = new TitledBorder(new EtchedBorder(), "Reportes");
+        jPanel3.setBorder(bordejpane3);
+        Border bordejpane4 = new TitledBorder(new EtchedBorder(), "Administrador");
+        jPanel4.setBorder(bordejpane4);
         jLabel1.setText(Tabla_hash.get(Login).getUser());
         if(Tabla_hash.get(Login).getModelo()!=null){
         jTree1.setModel(Tabla_hash.get(Login).getModelo());
@@ -74,6 +90,15 @@ public class PantallaUsuario extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jLabel2 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jButton13 = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -202,42 +227,143 @@ public class PantallaUsuario extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel2.setText("/");
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton10.setText("Grafo");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setText("Matriz");
+
+        jButton12.setText("Arbol Avl");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton10)
+                    .addComponent(jButton11)
+                    .addComponent(jButton12))
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton10)
+                .addGap(18, 18, 18)
+                .addComponent(jButton11)
+                .addGap(18, 18, 18)
+                .addComponent(jButton12)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton13.setText("Carga Masiva Usuarios");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        jButton14.setText("Tabla Hash");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+
+        jButton15.setText("Bitacora");
+
+        jButton16.setText("Usuarios Con Error");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButton13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton16))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButton14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton15)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton13)
+                    .addComponent(jButton16))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton14)
+                    .addComponent(jButton15))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton9))
-                    .addComponent(jScrollPane1))
-                .addContainerGap(41, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(jButton9))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel1))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton9))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
-                .addGap(0, 43, Short.MAX_VALUE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(106, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28))))
         );
 
         pack();
@@ -255,6 +381,7 @@ public class PantallaUsuario extends javax.swing.JFrame {
         TreeSelectionModel smd = jTree1.getSelectionModel();
         if(smd.getSelectionCount() > 0){
             DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent();
+            selectNodo = selectedNode;
             jLabel2.setText(selectedNode.getUserObject().toString());
             SelectActual=selectedNode.getUserObject().toString();
             String separado[];
@@ -361,11 +488,9 @@ public class PantallaUsuario extends javax.swing.JFrame {
     
         try {
             leer(select);
-            //for(int i=0; i<Titulo.size();i++){
-            insertar(Titulo.get(0),Contenido.get(0));
-            insertar(Titulo.get(1),Contenido.get(1));
-            //}
-            // TODO add your handling code here:
+            for(int i=0; i<Titulo.size();i++){
+            insertar(Titulo.get(i),Contenido.get(i));
+            }
         } catch (IOException ex) {
             Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CsvValidationException ex) {
@@ -390,6 +515,63 @@ public class PantallaUsuario extends javax.swing.JFrame {
         DefaultTreeModel model = (DefaultTreeModel)jTree1.getModel();
         model.reload();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+
+    ReporteTablaHash();
+    GenerarImagen("TablaHash");
+        try {
+        try {
+            sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            AbrirImagen("TablaHash");
+        } catch (IOException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+    JFileChooser file1=new JFileChooser();
+    file1.showOpenDialog(this);
+    File file = file1.getSelectedFile(); 
+    String select = file.getAbsolutePath(); 
+        try {
+            leerUser(select);
+            // TODO add your handling code here:
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (CsvValidationException ex) {
+            ex.printStackTrace();
+        }
+        for(int i=0;i<UpUser.size();i++){
+        String contra = UpPass.get(i);
+        String separado[];
+        separado = contra.split("");
+        String passE = sha_256(UpPass.get(i));
+        if(separado.length>7){
+        boolean re=buscar(UpUser.get(i));
+        if (re==false){    
+        insertarUser(UpUser.get(i), passE);
+        }else{
+        Problemas.add("Usuario: "+UpUser.get(i)+" Contraseña: "+UpPass.get(i)+" Error: Usuario Repetido");
+        }
+        }else{
+        Problemas.add("Usuario: "+UpUser.get(i)+" Contraseña: "+UpPass.get(i)+" Error: Contraseña menor a 8 caracteres");
+        }
+        }
+        System.out.println(imprimir());
+        for(int i=0;i<Problemas.size();i++){
+        System.out.println(Problemas.get(i));
+        }
+        JOptionPane.showMessageDialog(null, "Carga Completa");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton13ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -428,6 +610,13 @@ public class PantallaUsuario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -440,13 +629,19 @@ public class PantallaUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
+    static ArrayList<String> UpUser= new ArrayList();
+    static ArrayList<String> UpPass= new ArrayList();
+    static ArrayList<String> Problemas= new ArrayList();
     String SelectActual="/";
     static String[] fila = null;
     static ArrayList<String> Titulo= new ArrayList();
     static ArrayList<String> Contenido= new ArrayList();
+    DefaultMutableTreeNode selectNodo;
 
   public String fecha(){
     LocalDateTime myDateObj = LocalDateTime.now();  
@@ -454,7 +649,8 @@ public class PantallaUsuario extends javax.swing.JFrame {
     String formattedDate = myDateObj.format(myFormatObj);  
     return formattedDate;
   }
-      public static void leer(String archivo) throws FileNotFoundException, IOException, CsvValidationException{
+    public static void leer(String archivo) throws FileNotFoundException, IOException, CsvValidationException{
+    fila = null;
     String archCSV = archivo;
     CSVReader csvReader = new CSVReader(new FileReader(archCSV));
     int i=0;
@@ -469,9 +665,8 @@ public class PantallaUsuario extends javax.swing.JFrame {
     }
     public void insertar(String test,String cont){
         String fecha = fecha();
-        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent();
         DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(test);
-        selectedNode.add(newNode);
+        selectNodo.add(newNode);
         for(int i =0;i<Tabla_hash.get(Login).getCarpetas().size();i++){
         if(Tabla_hash.get(Login).getCarpetas().get(i).get(0).getNombre().equalsIgnoreCase(SelectActual)){
         Tabla_hash.get(Login).getCarpetas().get(i).get(0).getAvl().insertar(test, cont,fecha,Tabla_hash.get(Login).getUser());
@@ -482,4 +677,194 @@ public class PantallaUsuario extends javax.swing.JFrame {
         DefaultTreeModel model = (DefaultTreeModel)jTree1.getModel();
         model.reload();
     }
+    public boolean buscar(String user){
+  boolean existe=false;
+  Iterator<Usuario> itrUsuario = Tabla_hash.iterator();
+  int i=0;
+  while(itrUsuario.hasNext()){
+  Usuario Table = itrUsuario.next();
+  if(Tabla_hash.get(i)==null){
+  
+  }else{
+  if(user.equalsIgnoreCase(Table.getUser())){
+  existe=true;
+  }
+  }
+  i++;
+  }
+  return existe;
+  }
+    public static void leerUser(String archivo) throws FileNotFoundException, IOException, CsvValidationException{
+    fila = null;
+    String archCSV = archivo;
+    CSVReader csvReader = new CSVReader(new FileReader(archCSV));
+    int i=0;
+    while((fila = csvReader.readNext()) != null) {
+        if(i>0){
+        UpUser.add(fila[0]);
+        UpPass.add(fila[1]);
+        }
+        i++;
+    }
+    csvReader.close();
+    }
+    public String imprimir(){
+    String Lista="";
+   for(int i=0;i<Tabla_hash.size();i++){
+    if(Tabla_hash.get(i)==null){
+    Lista= Lista +(i)+" "+"null";
+   Lista = Lista + " \n ";
+    }else{
+   Lista= Lista +(i)+" "+"Nombre: "+Tabla_hash.get(i).getUser()+" Contraseña:"+Tabla_hash.get(i).getPass();
+   Lista = Lista + " \n ";
+    }
+   }
+   Lista = Lista + "";
+   return Lista;
+   }
+    public String sha_256(String key){
+            MessageDigest md = null;
+            String key_sha256 = (String)key;
+        try {            
+            md = MessageDigest.getInstance("SHA-256");
+            md.reset();
+            md.update(key_sha256.getBytes("utf8"));
+            key_sha256 = String.format("%064x", new BigInteger(1 , md.digest()));
+            return key_sha256;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e){
+        e.printStackTrace();
+        }
+      return "";
+  }
+    public void insertarUser (String p,String p2) {
+     //-------------
+        List<List<Matriz_Ad>> CarpetaRaiz =new ArrayList<List<Matriz_Ad>>();
+        for(int i=0;i<20;i++){
+        CarpetaRaiz.add(new ArrayList<Matriz_Ad>());
+        for(int j=0;j<20;j++){
+        CarpetaRaiz.get(i).add(new Matriz_Ad(null,new Arbol()));
+        }
+        }
+        CarpetaRaiz.get(0).set(0,new Matriz_Ad("0",new Arbol()));
+        CarpetaRaiz.get(0).set(1,new Matriz_Ad("/",new Arbol())); 
+        CarpetaRaiz.get(1).set(0,new Matriz_Ad("/",new Arbol()));
+        CarpetaRaiz.get(1).set(1,new Matriz_Ad(null,new Arbol()));
+     //-------------
+    String time=fecha();
+     int pos = this.Hash(p);
+     if(Tabla_hash.get(pos)==null){
+     Tabla_hash.set(pos, new Usuario(p,p2,pos,time,CarpetaRaiz));
+     cambiar++;
+    }else{
+     System.out.println("Colision "+pos);
+     if(pos==1 || pos==0){
+     pos=pos+2;
+     }
+     int k=0;
+     while(Tabla_hash.get(pos)!=null){
+     pos=(pos*pos)+k;
+     while(pos>tamanio_hash-1){
+     pos=pos-(tamanio_hash);
+     }
+     k++;
+     }
+     Tabla_hash.set(pos,new Usuario(p,p2,pos,time,CarpetaRaiz));
+     cambiar++;
+     }
+     if(cambiar>(tamanio_hash*0.75)){
+     System.out.println("Ya cambio");
+     tamanio_hash+=Tabla_francisco.get(tam);
+     for(int i=0;i<Tabla_francisco.get(tam);i++){
+     Tabla_hash.add(null);
+     }
+     tam++;
+     }
+     }
+    private static int Hash(String Clave) {            
+     int valor = Clave.charAt(0);
+     int tam = Clave.length();
+     for (int i = 1; i < tam ;i++) {
+     valor += Character.getNumericValue( Clave.charAt(i));
+     }
+     return (valor % tamanio_hash);
+     }
+    
+public void GenerarImagen(String name){
+try {
+      
+      String dotPath = "..\\dot.exe";
+      
+      String fileInputPath = "..\\REPORTES\\"+name+".txt";
+      String fileOutputPath = "..\\REPORTES\\"+name+".jpg";
+      
+      String tParam = "-Tjpg";
+      String tOParam = "-o";
+        
+      String[] cmd = new String[5];
+      cmd[0] = dotPath;
+      cmd[1] = tParam;
+      cmd[2] = fileInputPath;
+      cmd[3] = tOParam;
+      cmd[4] = fileOutputPath;
+                  
+      Runtime rt = Runtime.getRuntime();
+      
+      rt.exec( cmd );
+      
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    } finally {
+    }
+}
+
+public void ReporteTablaHash(){
+    try {
+            String ruta = "..\\REPORTES\\TablaHash.txt";
+            String num="";
+            String data="";
+            for(int i=0;i<Tabla_hash.size();i++){
+            if(Tabla_hash.get(i)!=null){
+            if(i<1){
+            num+=""+i+")";
+            data+="Nombre: "+Tabla_hash.get(i).getUser()+"\\nContraseña: "+Tabla_hash.get(i).getPass()+"\\nTimestamp: "+Tabla_hash.get(i).getTime();
+            }else{
+            num+="| "+i+")";
+            data+="| Nombre: "+Tabla_hash.get(i).getUser()+"\\nContraseña: "+Tabla_hash.get(i).getPass()+"\\nTimestamp: "+Tabla_hash.get(i).getTime();
+            }
+            }else{
+            if(i<1){
+            num+=""+i+")";
+            data+="Nombre: \\nContraseña: \\nTimestamp: ";
+            }else{
+            num+="| "+i+")";
+            data+="| Nombre: \\nContraseña: \\nTimestamp: ";
+            }        
+            }
+            }
+            String contenido="digraph G {\n" +
+            "		node [shape = record];\n" +
+            "    2[label=\"{"+num+"}|{"+data+"}\"];\n"+
+            "}";
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(contenido);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+}
+
+public void AbrirImagen(String ruta) throws IOException{
+    File f = new File("..\\REPORTES\\"+ruta+".jpg");
+    Desktop dt = Desktop.getDesktop();
+    dt.open(f);
+}
+
 }
