@@ -237,8 +237,18 @@ public class PantallaUsuario extends javax.swing.JFrame {
         });
 
         jButton11.setText("Matriz");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         jButton12.setText("Arbol Avl");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -573,6 +583,42 @@ public class PantallaUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton13ActionPerformed
 
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+    ReporteMatriz();
+    GenerarImagen("Matriz");
+        try {
+        try {
+            sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            AbrirImagen("Matriz");
+        } catch (IOException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        for(int i =0;i<Tabla_hash.get(Login).getCarpetas().size();i++){
+        if(Tabla_hash.get(Login).getCarpetas().get(i).get(0).getNombre().equalsIgnoreCase(SelectActual)){
+        Tabla_hash.get(Login).getCarpetas().get(i).get(0).getAvl().ReporteArbol();
+        break;
+        }
+        }
+        GenerarImagen("Arbol");
+        try {
+            sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            AbrirImagen("Arbol");
+        } catch (IOException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -651,6 +697,8 @@ public class PantallaUsuario extends javax.swing.JFrame {
   }
     public static void leer(String archivo) throws FileNotFoundException, IOException, CsvValidationException{
     fila = null;
+    Contenido.clear();
+    Titulo.clear();
     String archCSV = archivo;
     CSVReader csvReader = new CSVReader(new FileReader(archCSV));
     int i=0;
@@ -696,6 +744,8 @@ public class PantallaUsuario extends javax.swing.JFrame {
   }
     public static void leerUser(String archivo) throws FileNotFoundException, IOException, CsvValidationException{
     fila = null;
+    UpUser.clear();
+    UpPass.clear();
     String archCSV = archivo;
     CSVReader csvReader = new CSVReader(new FileReader(archCSV));
     int i=0;
@@ -793,9 +843,12 @@ public class PantallaUsuario extends javax.swing.JFrame {
     
 public void GenerarImagen(String name){
 try {
-      
-      String dotPath = "..\\dot.exe";
-      
+      String dotPath="";
+      if(name=="Matriz"){
+      dotPath = "..\\neato.exe";
+      }else{
+      dotPath = "..\\dot.exe";
+      }
       String fileInputPath = "..\\REPORTES\\"+name+".txt";
       String fileOutputPath = "..\\REPORTES\\"+name+".jpg";
       
@@ -817,6 +870,11 @@ try {
       ex.printStackTrace();
     } finally {
     }
+}
+public void AbrirImagen(String ruta) throws IOException{
+    File f = new File("..\\REPORTES\\"+ruta+".jpg");
+    Desktop dt = Desktop.getDesktop();
+    dt.open(f);
 }
 
 public void ReporteTablaHash(){
@@ -861,10 +919,71 @@ public void ReporteTablaHash(){
         }
 }
 
-public void AbrirImagen(String ruta) throws IOException{
-    File f = new File("..\\REPORTES\\"+ruta+".jpg");
-    Desktop dt = Desktop.getDesktop();
-    dt.open(f);
+public void ReporteMatriz(){
+    try {
+            String ruta = "..\\REPORTES\\Matriz.txt";
+            String resto="";
+            String enlace="";
+            String enlace2="";
+            int size=TamañoMatriz();
+            int id=0;
+            for(int i=0;i<size;i++){
+            for(int j=0;j<size;j++){
+            if(Tabla_hash.get(Login).getCarpetas().get(j).get(i).getNombre()!=null){
+            if(j==0){
+            resto+="p"+id+"[label=\""+Tabla_hash.get(Login).getCarpetas().get(j).get(i).getNombre()+"\"pos=\""+i+",-"+j+"!\"];\n";
+            enlace+="p"+id;
+            }else{
+            resto+="p"+id+"[label=\""+Tabla_hash.get(Login).getCarpetas().get(j).get(i).getNombre()+"\"pos=\""+i+",-"+j+"!\"];\n";
+            enlace+="->"+"p"+id;
+            }
+            }
+            id++;
+            }
+            enlace+=";";
+            }
+            id=0;
+            for(int i=0;i<size;i++){
+            for(int j=0;j<size;j++){
+            if(Tabla_hash.get(Login).getCarpetas().get(i).get(j).getNombre()!=null){
+            if(j==0){
+            enlace2+="p"+id;
+            }else{
+            enlace2+="->"+"p"+id;
+            }
+            }
+            id+=size;
+            }
+            id=i+1;
+            enlace2+=";";
+            }    
+            String contenido="digraph G {\n" +
+            "node[shape=record];\n" +
+            "graph[pencolor=transparent];\n" +
+            resto+"\n" +
+                    enlace+"\n"+
+                    enlace2+"\n"+
+            "}";
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(contenido);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+}
+
+public int TamañoMatriz(){
+    int i=0;
+    while(Tabla_hash.get(Login).getCarpetas().get(i).get(0).getNombre()!=null){   
+        i++;
+    }
+    return i;
 }
 
 }

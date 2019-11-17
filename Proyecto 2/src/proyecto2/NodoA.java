@@ -10,8 +10,10 @@ package proyecto2;
  */
 public class NodoA {
     ////////////////////VARIABLES MANEJO//////////////////////////////// 
+    int idd=1;
     int balance;
     int rotacion;
+    int altura;
     NodoA izquierda;
     NodoA derecha;
     NodoA AsociacionABB;//este es el apuntador para asociar el Nodo del Arbl AVL "noticia" con el Arbol de "complementos" ABB
@@ -20,6 +22,7 @@ public class NodoA {
     NodoA(){
         balance=0;
         rotacion=0;
+        altura=0;
         izquierda=null;
         derecha=null;
         AsociacionABB=null;
@@ -34,6 +37,9 @@ public class NodoA {
     }
     public void Cambiar_izquierda(NodoA izquierda){
         this.izquierda=izquierda;
+    }
+    public void Cambiar_altura(int altura){
+    this.altura=altura;
     }
     public void Cambiar_derecha(NodoA derecha){
         this.derecha=derecha;
@@ -55,5 +61,30 @@ public class NodoA {
     }
         public void Cambiar_Propietario(String Propietario){
         this.Propietario=Propietario;
+    }
+    public String getCodigoGraphviz() {
+    return "digraph grafica{\n" +
+               "rankdir=TB;\n" +
+               "node [shape = record, style=filled, fillcolor=seashell2];\n"+
+                getCodigoInterno()+
+                "}\n";
+    }
+    public String getCodigoInterno() {
+        
+        String etiqueta;
+        if(izquierda==null && derecha==null){
+            etiqueta="nodo"+idd+" [ label =\"Nombre:"+Titulo+"\\nContenido:"+Descripcion+"\\nAltura:"+altura+"\\nFE:"+balance+"\\nTimestamp:"+Time+"\\nPropietario:"+Propietario+"\"];\n";
+        }else{
+            etiqueta="nodo"+idd+" [ label =\"<C0>|"+Titulo+"\\nContenido:"+Descripcion+"\\nAltura:"+altura+"\\nFE:"+balance+"\\nTimestamp:"+Time+"\\nPropietario:"+Propietario+"|<C1>\"];\n";
+        }
+        if(izquierda!=null){  
+            etiqueta=etiqueta + izquierda.getCodigoInterno() +
+               "nodo"+idd+":C0->nodo"+izquierda.idd+"\n";
+        }
+        if(derecha!=null){
+            etiqueta=etiqueta + derecha.getCodigoInterno() +
+               "nodo"+idd+":C1->nodo"+derecha.idd+"\n";                    
+        }
+        return etiqueta;
     }
 }

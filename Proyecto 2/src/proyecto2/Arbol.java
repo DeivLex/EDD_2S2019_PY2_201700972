@@ -4,6 +4,9 @@
  */
 package proyecto2;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.LinkedList;
 
 /**
@@ -11,6 +14,7 @@ import java.util.LinkedList;
  * @author beto
  */
 public class Arbol {
+    int ingresados=0;
     private NodoA raiz;
     private NodoA Aux;
     private boolean rotacion=false;
@@ -26,6 +30,7 @@ public class Arbol {
     private NodoA Busqueda;
     private NodoA nuevaRaiz;
     public void insertar(String Titulo,String Descripcion,String Time,String Propietario){
+        ingresados++;
         insertar(Titulo,Descripcion,Time,Propietario,raiz);
     }
     private NodoA insertar(String Titulo,String Descripcion,String Time,String Propietario,NodoA A){
@@ -34,6 +39,7 @@ public class Arbol {
             if(raiz==null){
             raiz = A;
             }
+            A.idd=ingresados+1;
             A.Cambiar_Balance(0);
             A.Cambiar_Titulo(Titulo);
             A.Cambiar_Descripcion(Descripcion);
@@ -402,19 +408,49 @@ public class Arbol {
     }
     public LinkedList<String> graficar(){
         grafica.clear();
+        raiz.altura=AlturaArbol(ingresados);
         return graficar(raiz);
     }
     private LinkedList<String> graficar(NodoA A){
         if(A!=null){
             if(A.izquierda!=null){
-                grafica.add(A.Titulo+" izquierda "+A.izquierda.Titulo);
+                A.izquierda.altura=A.altura-1;
+                grafica.add(A.Titulo+" FE:"+A.balance+" Altura:"+A.altura+" izquierda "+A.izquierda.Titulo+" FE:"+A.izquierda.balance+" Altura:"+A.izquierda.altura);
             }
             if(A.derecha!=null){
-                grafica.add(A.Titulo+" derecha "+A.derecha.Titulo);
+                A.derecha.altura=A.altura-1;
+                grafica.add(A.Titulo+" FE:"+A.balance+" Altura:"+A.altura+" derecha "+A.derecha.Titulo+" FE:"+A.derecha.balance+" Altura:"+A.derecha.altura);
             }
             graficar(A.izquierda);
             graficar(A.derecha);
         }
         return grafica;
+    }
+    public int AlturaArbol(int a){
+    for(int i=0;i<a;i++){
+    int k=(int)Math.pow(2, i);
+    if(a<(k)){
+    return i-1;
+    }
+    }
+    return -1;
+    }
+    public void ReporteArbol(){
+        graficar();
+        try {
+            String contenido= raiz.getCodigoGraphviz();
+            String ruta = "..\\REPORTES\\Arbol.txt";
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(contenido);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

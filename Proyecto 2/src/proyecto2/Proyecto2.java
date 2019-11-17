@@ -12,10 +12,11 @@ import java.util.*;
  * @author Davis
  */
 public class Proyecto2 {
+    public static Pila bitacora = new Pila();
+    public static  Usuario[] Tabla_Hash = new Usuario[7];
+    public static Matriz_de_adyacencia Matriz;
     public static int Login=0;
     public static int tamanio_hash = 7;
-    public static ArrayList<Usuario> Tabla_hash= new ArrayList();
-    public static ArrayList<Integer> Tabla_francisco = new ArrayList<>();
     /**
      * @param args the command line arguments
      */
@@ -48,6 +49,8 @@ public class Proyecto2 {
         Tabla_francisco.add(6);
         Tabla_francisco.add(2);
         }
-        //-----------------------
+        //-----------------------        
     }
+    public static ArrayList<Usuario> Tabla_hash= new ArrayList();
+    public static ArrayList<Integer> Tabla_francisco = new ArrayList<>();
 }
