@@ -32,9 +32,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
+import static proyecto2.Inicio.PresentAdmin;
+import static proyecto2.Proyecto2.Errores;
 import static proyecto2.Proyecto2.Login;
 import static proyecto2.Proyecto2.Tabla_francisco;
 import static proyecto2.Proyecto2.Tabla_hash;
+import static proyecto2.Proyecto2.bitacora;
 import static proyecto2.Proyecto2.tamanio_hash;
 import static proyecto2.Registrar.cambiar;
 import static proyecto2.Registrar.tam;
@@ -44,7 +47,6 @@ import static proyecto2.Registrar.tam;
  * @author Davis
  */
 public class PantallaUsuario extends javax.swing.JFrame {
-
     /**
      * Creates new form PantallaUsuario
      */
@@ -59,6 +61,12 @@ public class PantallaUsuario extends javax.swing.JFrame {
         jPanel3.setBorder(bordejpane3);
         Border bordejpane4 = new TitledBorder(new EtchedBorder(), "Administrador");
         jPanel4.setBorder(bordejpane4);
+        if(PresentAdmin==true){
+        jPanel4.setVisible(true);
+        }else{
+        jPanel4.setVisible(false);
+        }
+        
         jLabel1.setText(Tabla_hash.get(Login).getUser());
         if(Tabla_hash.get(Login).getModelo()!=null){
         jTree1.setModel(Tabla_hash.get(Login).getModelo());
@@ -80,7 +88,6 @@ public class PantallaUsuario extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
@@ -127,13 +134,6 @@ public class PantallaUsuario extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Subir");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -143,9 +143,8 @@ public class PantallaUsuario extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton3))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,8 +155,6 @@ public class PantallaUsuario extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -171,8 +168,18 @@ public class PantallaUsuario extends javax.swing.JFrame {
         });
 
         jButton6.setText("Modificar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Eliminar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Carga masiva");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -291,8 +298,18 @@ public class PantallaUsuario extends javax.swing.JFrame {
         });
 
         jButton15.setText("Bitacora");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
 
         jButton16.setText("Usuarios Con Error");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -303,7 +320,7 @@ public class PantallaUsuario extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jButton13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 262, Short.MAX_VALUE)
                         .addComponent(jButton16))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jButton14)
@@ -330,25 +347,27 @@ public class PantallaUsuario extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton9))
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton9))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(52, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,19 +380,17 @@ public class PantallaUsuario extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton9))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(106, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28))))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         pack();
@@ -412,6 +429,7 @@ public class PantallaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jTree1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        bitacora.insertar(jLabel1.getText(),"Crear Carpeta", fecha());
         String test= JOptionPane.showInputDialog("Ingrese nombre: ");
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent();
         DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(test);
@@ -439,6 +457,7 @@ public class PantallaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        bitacora.insertar(jLabel1.getText(),"Modificar Carpeta", fecha());
         String actual2="";
         String test= JOptionPane.showInputDialog("Ingrese nuevo nombre: ");
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent();
@@ -467,6 +486,7 @@ public class PantallaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        bitacora.insertar(jLabel1.getText(),"Eliminar Carpeta", fecha());
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent();
         
         if(selectedNode != jTree1.getModel().getRoot())
@@ -480,17 +500,8 @@ public class PantallaUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-    for(int i=0;i<10;i++){
-    for(int j=0;j<10;j++){
-    System.out.print(Tabla_hash.get(Login).getCarpetas().get(i).get(j).getNombre()+"->");
-    }
-    System.out.println();
-    }
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    bitacora.insertar(jLabel1.getText(),"Carga masiva de archivos", fecha());
     JFileChooser file1=new JFileChooser();
     file1.showOpenDialog(this);
     File file = file1.getSelectedFile(); 
@@ -509,6 +520,7 @@ public class PantallaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        bitacora.insertar(jLabel1.getText(),"Crear Archivo", fecha());
         String test= JOptionPane.showInputDialog("Ingrese nombre del archivo: ");
         String cont= JOptionPane.showInputDialog("Ingrese contenido del archivo: ");
         String fecha = fecha();
@@ -527,11 +539,42 @@ public class PantallaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-
+        bitacora.insertar(jLabel1.getText(),"Reporte Grafo", fecha());
+        String ya="";
+        for(int i=1;i<Tabla_hash.get(Login).getCarpetas().size();i++){
+        for(int j=1;j<Tabla_hash.get(Login).getCarpetas().size();j++){
+            if(Tabla_hash.get(Login).getCarpetas().get(i).get(j).getNombre()!=null){
+            String separado[];
+            separado = Tabla_hash.get(Login).getCarpetas().get(i).get(j).getNombre().split("/");
+            if(separado[0].equalsIgnoreCase("")){
+            ya+="raiz[label=\"raiz #Carpetas:"+getNumCarpetas("/")+"\"];";
+            ya+=separado[2]+"[label=\""+separado[2]+" #Carpetas:"+getNumCarpetas(separado[2])+"\"];";
+            ya+="raiz->"+separado[2]+";";
+            }else{
+            ya+=separado[0]+"[label=\""+separado[0]+" #Carpetas:"+getNumCarpetas(separado[0])+"\"];";
+            ya+=separado[1]+"[label=\""+separado[1]+" #Carpetas:"+getNumCarpetas(separado[1])+"\"];";
+            ya+= separado[0]+"->"+separado[1]+";";
+            }
+            }
+        }
+        }
+        ReporteGrafo(ya);
+        GenerarImagen("Grafo");
+        try {
+            sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            AbrirImagen("Grafo");
+        } catch (IOException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-
+        bitacora.insertar(jLabel1.getText(),"Reporte Tabla Hash", fecha());
     ReporteTablaHash();
     GenerarImagen("TablaHash");
         try {
@@ -547,6 +590,8 @@ public class PantallaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        bitacora.insertar(jLabel1.getText(),"Carga Masiva Usuarios", fecha());
+        Problemas.clear();
     JFileChooser file1=new JFileChooser();
     file1.showOpenDialog(this);
     File file = file1.getSelectedFile(); 
@@ -569,9 +614,11 @@ public class PantallaUsuario extends javax.swing.JFrame {
         if (re==false){    
         insertarUser(UpUser.get(i), passE);
         }else{
+        Errores.insertar(UpUser.get(i),UpPass.get(i),"Usuario Repetido");
         Problemas.add("Usuario: "+UpUser.get(i)+" Contraseña: "+UpPass.get(i)+" Error: Usuario Repetido");
         }
         }else{
+        Errores.insertar(UpUser.get(i),UpPass.get(i),"Usuario Repetido");
         Problemas.add("Usuario: "+UpUser.get(i)+" Contraseña: "+UpPass.get(i)+" Error: Contraseña menor a 8 caracteres");
         }
         }
@@ -584,7 +631,8 @@ public class PantallaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-    ReporteMatriz();
+        bitacora.insertar(jLabel1.getText(),"Reporte Matriz", fecha());
+        ReporteMatriz();
     GenerarImagen("Matriz");
         try {
         try {
@@ -600,6 +648,7 @@ public class PantallaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        bitacora.insertar(jLabel1.getText(),"Reporte Arbol Avl", fecha());
         for(int i =0;i<Tabla_hash.get(Login).getCarpetas().size();i++){
         if(Tabla_hash.get(Login).getCarpetas().get(i).get(0).getNombre().equalsIgnoreCase(SelectActual)){
         Tabla_hash.get(Login).getCarpetas().get(i).get(0).getAvl().ReporteArbol();
@@ -618,6 +667,50 @@ public class PantallaUsuario extends javax.swing.JFrame {
             Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        bitacora.insertar(jLabel1.getText(),"Modificar Archivo", fecha());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        bitacora.insertar(jLabel1.getText(),"Reporte Bitacora", fecha());
+        ReporteBitacora();
+        GenerarImagen("Bitacora");
+        try {
+            sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            AbrirImagen("Bitacora");
+        } catch (IOException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        bitacora.insertar(jLabel1.getText(),"Reporte De Usuarios Con Error", fecha());
+        ReporteUsuariosError();
+        GenerarImagen("Error");
+        try {
+            sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            AbrirImagen("Error");
+        } catch (IOException ex) {
+            Logger.getLogger(PantallaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        bitacora.insertar(jLabel1.getText(),"Eliminar Archivo", fecha());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -665,7 +758,6 @@ public class PantallaUsuario extends javax.swing.JFrame {
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -986,4 +1078,79 @@ public int TamañoMatriz(){
     return i;
 }
 
+public void ReporteBitacora() {
+        try {
+            String ruta = "..\\REPORTES\\Bitacora.txt";
+            String resto=bitacora.imprimir();
+            String contenido="digraph G {\n" +
+            "    node [shape = record];\n" +
+            "    2[label=\"{"+resto+"}\"];\n" +
+            "}";
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(contenido);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+}
+public void ReporteUsuariosError() {
+        try {
+            String ruta = "..\\REPORTES\\Error.txt";
+            String resto=Errores.ImprimirErrores();
+            String contenido="digraph G {\n" +
+            "    node [shape = record];\n" +
+            "    2[label=\"{"+resto+"}\"];\n" +
+            "}";
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(contenido);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+}
+public void ReporteGrafo(String resto) {
+        try {
+            String ruta = "..\\REPORTES\\Grafo.txt";
+            String contenido="digraph G {\n" +
+            resto+
+            "}";
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(contenido);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+}
+public int getNumCarpetas(String busca){
+    int pa=0;
+    for(int i=1;i<Tabla_hash.get(Login).getCarpetas().size();i++){
+    if(Tabla_hash.get(Login).getCarpetas().get(i).get(0).getNombre().equalsIgnoreCase(busca)){
+    for(int j=1;j<Tabla_hash.get(Login).getCarpetas().size();j++){
+    if(Tabla_hash.get(Login).getCarpetas().get(i).get(j).getNombre()!=null){
+    pa++;
+    }
+    }
+    return pa;
+    }
+    }
+    return pa;
+}
 }

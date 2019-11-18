@@ -13,6 +13,7 @@ import java.util.*;
  */
 public class Proyecto2 {
     public static Pila bitacora = new Pila();
+    public static Pila Errores = new Pila();
     public static  Usuario[] Tabla_Hash = new Usuario[7];
     public static Matriz_de_adyacencia Matriz;
     public static int Login=0;
@@ -27,8 +28,8 @@ public class Proyecto2 {
         for(int i=0; i<7;i++){
         Tabla_hash.add(null);
         }
-        String passE=b.sha_256("");
-        b.insertar("a",passE);
+        String passE=b.sha_256("Admin");
+        b.insertar("Admin",passE);
         //----------------------------
         for(int k=0;k<10;k++){
         Tabla_francisco.add(4);
@@ -49,7 +50,7 @@ public class Proyecto2 {
         Tabla_francisco.add(6);
         Tabla_francisco.add(2);
         }
-        //-----------------------        
+        //-----------------------
     }
     public static ArrayList<Usuario> Tabla_hash= new ArrayList();
     public static ArrayList<Integer> Tabla_francisco = new ArrayList<>();

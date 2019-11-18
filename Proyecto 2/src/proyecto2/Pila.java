@@ -37,18 +37,27 @@ public class Pila {
         }
         else
         {
-            nuevo.sig = raiz;
-            raiz = nuevo;
+            nuevo.sig=raiz;
+            raiz=nuevo;
         }
     }
     
     
         
     public String imprimir() {
-        String get="";
+        String get=" Pila ↓ ↑ ";
         Nodo reco=raiz;
         while (reco!=null) {
-            get+="Usuario:"+reco.User+" Operacion:"+reco.Operacion+" TimeStamp:"+reco.TimeStamp+"\n";
+            get+="|Usuario: "+reco.User+"\\nOperacion: "+reco.Operacion+"\\nTimeStamp: "+reco.TimeStamp;
+            reco=reco.sig;
+        }
+        return get;
+    }
+    public String ImprimirErrores(){
+        String get=" Usuarios con errores ";
+        Nodo reco=raiz;
+        while (reco!=null) {
+            get+="|Usuario: "+reco.User+"\\nContraseña: "+reco.Operacion+"\\nError: "+reco.TimeStamp;
             reco=reco.sig;
         }
         return get;

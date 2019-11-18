@@ -19,6 +19,7 @@ import static proyecto2.Proyecto2.Login;
  * @author Davis
  */
 public class Inicio extends javax.swing.JFrame {
+    public static boolean PresentAdmin=false;
 
     /**
      * Creates new form Inicio
@@ -123,6 +124,11 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(jTextField1.getText().equalsIgnoreCase("admin")){
+        PresentAdmin=true;
+        }else{
+        PresentAdmin=false;
+        }
         boolean re =buscar(jTextField1.getText(),jPasswordField1.getText());
         if (re==true){
         PantallaUsuario v = new PantallaUsuario();
